@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Jobs;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,11 +8,12 @@ public class Movement : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float gravityMultiplier;
 
     [SerializeField] private float jumpForce;
     [SerializeField] private float jumpCooldown;
     [SerializeField] private float airMultiplier;
-    private bool readyToJump;
+    private bool readyToJump = true;
 
     [Header("Ground Check")]
     [SerializeField] private float playerHeight;
@@ -22,11 +24,13 @@ public class Movement : MonoBehaviour
     [SerializeField] private Transform orientation;
 
     //change to input system
-    public KeyCode jumpKey = KeyCode.Space;
     //add gravity
 
     float horizontalInput;
     float verticalInput;
+    private float gravity = -9.81f;
+    private float velocity;
+    
 
     CharacterController cc;
     Vector3 moveDirection;
@@ -40,7 +44,6 @@ public class Movement : MonoBehaviour
     {
         //ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
-        
         MyInput();
         MovePlayer();
     }
@@ -51,7 +54,7 @@ public class Movement : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
 
         // when to jump
-        if(Input.GetKey(jumpKey) && readyToJump && grounded)
+        if(Input.GetKey(KeyCode.Space) && readyToJump && grounded)
         {
             readyToJump = false;
 
@@ -63,8 +66,18 @@ public class Movement : MonoBehaviour
 
     private void MovePlayer()
     {
+        if (grounded && velocity < 0.0f)
+        {
+            velocity = -1.0f;
+        }
+        else
+        {
+            velocity += gravity * gravityMultiplier * Time.deltaTime;
+
+        }
+        moveDirection.y = velocity;
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-        cc.Move(moveDirection* moveSpeed);
+        cc.Move(moveDirection * moveSpeed);
     }
 
     private void Jump()
