@@ -44,6 +44,7 @@ public class Movement : MonoBehaviour
     {
         //ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+        ApplyGravity();
         MyInput();
         MovePlayer();
     }
@@ -66,16 +67,6 @@ public class Movement : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (grounded && velocity < 0.0f)
-        {
-            velocity = -1.0f;
-        }
-        else
-        {
-            velocity += gravity * gravityMultiplier * Time.deltaTime;
-
-        }
-        moveDirection.y = velocity;
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
         cc.Move(moveDirection * moveSpeed);
     }
@@ -89,5 +80,21 @@ public class Movement : MonoBehaviour
     private void RedyJump()
     {
         readyToJump = true;
+    }
+
+    private void ApplyGravity()
+    {
+
+        if (grounded && velocity < 0.0f)
+        {
+            velocity = -1.0f;
+        }
+        else
+        {
+            velocity += gravity * gravityMultiplier * Time.deltaTime;
+
+        }
+        moveDirection.y = velocity;
+        cc.Move(moveDirection * Time.deltaTime);
     }
 }

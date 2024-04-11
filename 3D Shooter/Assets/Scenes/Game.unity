@@ -763,8 +763,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0.05
-  gravityMultiplier: 3
-  jumpForce: 1
+  gravityMultiplier: 1.5
+  jumpForce: 1.5
   jumpCooldown: 0.25
   airMultiplier: 0
   playerHeight: 2
