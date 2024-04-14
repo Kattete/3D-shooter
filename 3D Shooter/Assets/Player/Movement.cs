@@ -3,22 +3,29 @@ using System.Collections.Generic;
 using Unity.Jobs;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Movement : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float gravityMultiplier;
+    [SerializeField] private float walkSpeed;
+    [SerializeField] private float sprintSpeed;
 
     [SerializeField] private float jumpForce;
     [SerializeField] private float jumpCooldown;
-    [SerializeField] private float airMultiplier;
     private bool readyToJump = true;
 
     [Header("Ground Check")]
     [SerializeField] private float playerHeight;
     [SerializeField] private LayerMask whatIsGround;
     private bool grounded;
+
+    [Header("Crouching")]
+    [SerializeField] private float crouchSpeed;
+    [SerializeField] private float crouchYScale;
+    [SerializeField] private float startYScale;
 
 
     [SerializeField] private Transform orientation;
@@ -30,14 +37,27 @@ public class Movement : MonoBehaviour
     float verticalInput;
     private float gravity = -9.81f;
     private float velocity;
-    
 
+    private Controlls cl;
     CharacterController cc;
     Vector3 moveDirection;
+
+    public MovementState state;
+
+    public enum MovementState
+    {
+        walking,
+        sprinting,
+        crouching,
+        air
+    }
 
     private void Start()
     {
         cc = GetComponent<CharacterController>();
+        cl = new Controlls();
+        cl.Enable();
+        startYScale = transform.localScale.y;
     }
 
     private void Update()
@@ -47,6 +67,7 @@ public class Movement : MonoBehaviour
         ApplyGravity();
         MyInput();
         MovePlayer();
+        stateHandle();
     }
 
     private void MyInput()
@@ -62,6 +83,39 @@ public class Movement : MonoBehaviour
             Jump();
 
             Invoke(nameof(RedyJump), jumpCooldown);
+        }
+
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+        }
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
+        }
+    }
+
+    private void stateHandle()
+    {
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            state = MovementState.crouching;
+            moveSpeed = crouchSpeed;
+        }
+
+        //sprinting state
+        if(grounded && Input.GetKey(KeyCode.LeftShift))
+        {
+            state = MovementState.sprinting;
+            moveSpeed = sprintSpeed;
+        }else if (grounded) //walking state
+        {
+            state = MovementState.walking;
+            moveSpeed = walkSpeed;
+        }
+        else //air state
+        {
+            state = MovementState.air;
         }
     }
 
