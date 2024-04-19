@@ -43,9 +43,15 @@ public class Movement : MonoBehaviour
     Vector3 moveDirection;
 
     public MovementState state;
+    public bool freeze;
+    public bool activeGrapple;
+    private Vector3 velocityToSet;
+
+    private bool enableMovementOnNextTouch;
 
     public enum MovementState
     {
+        freeze,
         walking,
         sprinting,
         crouching,
@@ -70,6 +76,34 @@ public class Movement : MonoBehaviour
         stateHandle();
     }
 
+    public void JumpToPosition(Vector3 targetPosition, float trajectoryHeight)
+    {
+        activeGrapple = true;
+        velocityToSet = CalculateJumpVelocity(transform.position, targetPosition, trajectoryHeight);
+        Invoke(nameof(SetVelocity), 0.1f);
+        Invoke(nameof(ResetRestricion), 3f);
+    }
+
+    private void SetVelocity()
+    {
+        enableMovementOnNextTouch = true;
+        cc.Move(velocityToSet);
+    }
+
+    public void ResetRestricion()
+    {
+        activeGrapple = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (enableMovementOnNextTouch)
+        {
+            enableMovementOnNextTouch = false;
+            ResetRestricion();
+            GetComponent<Grappling>().StopGrapple();
+        }
+    }
     private void MyInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -97,10 +131,20 @@ public class Movement : MonoBehaviour
 
     private void stateHandle()
     {
-        if (Input.GetKey(KeyCode.LeftControl))
+        //freeze mode
+
+        if (freeze)
+        {
+            state = MovementState.freeze;
+            moveSpeed = 0;
+            gravity = 0;
+        }
+
+        else if (Input.GetKey(KeyCode.LeftControl))
         {
             state = MovementState.crouching;
             moveSpeed = crouchSpeed;
+            gravity = -9.81f;
         }
 
         //sprinting state
@@ -108,19 +152,24 @@ public class Movement : MonoBehaviour
         {
             state = MovementState.sprinting;
             moveSpeed = sprintSpeed;
+            gravity = -9.81f;
         }else if (grounded) //walking state
         {
             state = MovementState.walking;
             moveSpeed = walkSpeed;
+            gravity = -9.81f;
         }
         else //air state
         {
             state = MovementState.air;
+            gravity = -9.81f;
         }
     }
 
     private void MovePlayer()
     {
+        if (activeGrapple) return;  
+
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
         cc.Move(moveDirection * moveSpeed);
     }
@@ -150,5 +199,17 @@ public class Movement : MonoBehaviour
         }
         moveDirection.y = velocity;
         cc.Move(moveDirection * Time.deltaTime);
+    }
+
+    private Vector3 CalculateJumpVelocity(Vector3 startPoint, Vector3 endPoint, float trajecctoryHeight)
+    {
+        float gravity = Physics.gravity.y;
+        float displacementY = endPoint.y - startPoint.y;
+        Vector3 displacementXZ = new Vector3(endPoint.x - startPoint.x, 0f, endPoint.z - startPoint.z);
+
+        Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * trajecctoryHeight);
+        Vector3 velocityXZ = displacementXZ / (Mathf.Sqrt(-2 * trajecctoryHeight / gravity) + Mathf.Sqrt(2 * (displacementY  - trajecctoryHeight) / gravity));
+
+        return velocityXZ + velocityY;
     }
 }
