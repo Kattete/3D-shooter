@@ -18,6 +18,10 @@ public class PlayerAnimations : MonoBehaviour
     //Jump Hashes
     private int jumpHash;
     private int jumpBckHash;
+
+    //Crouch Hashes
+    private int crouchIdleHash;
+    private int crouchWalkHash;
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -32,6 +36,9 @@ public class PlayerAnimations : MonoBehaviour
         //Jump
         jumpHash = Animator.StringToHash("Jump");
         jumpBckHash = Animator.StringToHash("JumpBck");
+        //Crouch
+        crouchIdleHash = Animator.StringToHash("CrouchIdle");
+        crouchWalkHash = Animator.StringToHash("CrouchWalk");
     }
 
     private void Update()
@@ -39,6 +46,7 @@ public class PlayerAnimations : MonoBehaviour
         WalkingAnimations();
         RunningAnimations();
         JumpingAnimations();
+        CrouchingAnimations();
     }
 
     private void WalkingAnimations()
@@ -68,5 +76,14 @@ public class PlayerAnimations : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space)) animator.SetTrigger(jumpHash);
         if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.S)) animator.SetTrigger(jumpBckHash);
+    }
+
+    private void CrouchingAnimations()
+    {
+        if (Input.GetKey(KeyCode.LeftControl)) animator.SetBool(crouchIdleHash, true);
+        else animator.SetBool(crouchIdleHash, false);
+
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.W)) animator.SetBool(crouchWalkHash, true);
+        else animator.SetBool(crouchWalkHash, false);
     }
 }
