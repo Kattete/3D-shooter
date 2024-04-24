@@ -5,22 +5,39 @@ using UnityEngine;
 public class PlayerAnimations : MonoBehaviour
 {
     private Animator animator;
+    //Walking hashes
     private int walkingHash;
     private int rightStrafeHash;
     private int leftStrafeHash;
     private int walkingBckHash;
+
+    //Running hashes
+    private int runningHash;
+    private int runningBckHash;
+
+    //Jump Hashes
+    private int jumpHash;
+    private int jumpBckHash;
     private void Start()
     {
         animator = GetComponent<Animator>();
+        //Walk
         walkingHash = Animator.StringToHash("Walking");
         rightStrafeHash = Animator.StringToHash("RightStrafe");
         leftStrafeHash = Animator.StringToHash("LeftStrafe");
         walkingBckHash = Animator.StringToHash("WalkingBck");
+        //Run
+        runningHash = Animator.StringToHash("Running");
+        runningBckHash = Animator.StringToHash("RunningBck");
+        //Jump
+        jumpHash = Animator.StringToHash("Jump");
+        jumpBckHash = Animator.StringToHash("JumpBck");
     }
 
     private void Update()
     {
         WalkingAnimations();
+        RunningAnimations();
     }
 
     private void WalkingAnimations()
@@ -40,16 +57,9 @@ public class PlayerAnimations : MonoBehaviour
 
     private void RunningAnimations()
     {
-        if (Input.GetKey(KeyCode.W)) animator.SetBool(walkingHash, true);
-        else animator.SetBool(walkingHash, false);
-
-        if (Input.GetKey(KeyCode.S)) animator.SetBool(walkingBckHash, true);
-        else animator.SetBool(walkingBckHash, false);
-
-        if (Input.GetKey(KeyCode.A)) animator.SetBool(leftStrafeHash, true);
-        else animator.SetBool(leftStrafeHash, false);
-
-        if (Input.GetKey(KeyCode.D)) animator.SetBool(rightStrafeHash, true);
-        else animator.SetBool(rightStrafeHash, false);
+        if (Input.GetKey(KeyCode.LeftShift)) animator.SetBool(runningHash, true);
+        else animator.SetBool(runningHash, false);
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.S)) animator.SetBool(runningBckHash, true);
+        else animator.SetBool(runningBckHash, false);
     }
 }
