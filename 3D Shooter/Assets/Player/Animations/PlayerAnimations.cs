@@ -38,6 +38,7 @@ public class PlayerAnimations : MonoBehaviour
     {
         WalkingAnimations();
         RunningAnimations();
+        JumpingAnimations();
     }
 
     private void WalkingAnimations()
@@ -61,5 +62,11 @@ public class PlayerAnimations : MonoBehaviour
         else animator.SetBool(runningHash, false);
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.S)) animator.SetBool(runningBckHash, true);
         else animator.SetBool(runningBckHash, false);
+    }
+
+    private void JumpingAnimations()
+    {
+        if (Input.GetKey(KeyCode.Space)) animator.SetTrigger(jumpHash);
+        if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.S)) animator.SetTrigger(jumpBckHash);
     }
 }
