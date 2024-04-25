@@ -48033,6 +48033,7 @@ GameObject:
   - component: {fileID: 1454613614}
   - component: {fileID: 1454613613}
   - component: {fileID: 1454613612}
+  - component: {fileID: 1454613617}
   m_Layer: 0
   m_Name: gun
   m_TagString: Untagged
@@ -48231,6 +48232,49 @@ Transform:
   - {fileID: 49763289}
   m_Father: {fileID: 1608858475}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1454613617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1454613611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09cf6157dd14f5a4ebb64a42dcef83f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grapple: {fileID: 1551027172}
+  quality: 500
+  damper: 14
+  strength: 800
+  velocity: 15
+  waveCount: 3
+  waveHeight: 1
+  affectCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.011779785
+      inSlope: 1.9555411
+      outSlope: 1.9555411
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.09166667
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.011779785
+      outSlope: -0.011779785
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1455343683 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4437814154069495125, guid: c0b31d97ac2fee0499c67eb024f5acf0,
@@ -50387,7 +50431,6 @@ MonoBehaviour:
   whatIsGrappable:
     serializedVersion: 2
     m_Bits: 64
-  lr: {fileID: 1454613612}
   maxGrapplingDistance: 25
   grappleDelayTime: 0.25
   overShootY: 1
