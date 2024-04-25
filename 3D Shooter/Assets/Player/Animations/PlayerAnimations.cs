@@ -83,7 +83,7 @@ public class PlayerAnimations : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl)) animator.SetBool(crouchIdleHash, true);
         else animator.SetBool(crouchIdleHash, false);
 
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.W)) animator.SetBool(crouchWalkHash, true);
+        if (Input.GetKey(KeyCode.LeftControl) && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))) animator.SetBool(crouchWalkHash, true);
         else animator.SetBool(crouchWalkHash, false);
     }
 }
