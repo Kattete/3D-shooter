@@ -28,6 +28,9 @@ public class Movement : MonoBehaviour
     [Header("Slope Handling")]
     [SerializeField] private float maxSlopeAngle;
     private RaycastHit slopeHit;
+    [Header("Swimming")]
+    public bool isSwimming;
+    [SerializeField] private float swimSpeed;
 
     float horizontalInput;
     float verticalInput;
@@ -44,6 +47,7 @@ public class Movement : MonoBehaviour
     public MovemenState state;
     public enum MovemenState
     {
+        swimming,
         freeze,
         walking,
         sprinting,
@@ -68,6 +72,7 @@ public class Movement : MonoBehaviour
         StateHandler();
 
         if (grounded && !activeGrapple) rb.drag = groundDrag;
+        else if (isSwimming == true) rb.drag = 10f;
         else rb.drag = 0;
     }
 
@@ -103,6 +108,14 @@ public class Movement : MonoBehaviour
 
     private void StateHandler()
     {
+        //Mode - swimming
+        if (isSwimming)
+        {
+            state = MovemenState.swimming;
+            moveSpeed = swimSpeed;
+            rb.useGravity = false;
+        }
+
         //Mode - Freeze
         if (freeze)
         {
@@ -110,19 +123,21 @@ public class Movement : MonoBehaviour
             moveSpeed = 0;
             rb.velocity = Vector3.zero;
         }
+
         //Mode - Crouching
         else if (Input.GetKey(KeyCode.LeftControl))
         {
             state = MovemenState.crouching;
             moveSpeed = crouchSpeed;
+            rb.useGravity = true;
         }
-
 
         //Mode - sprinting
         else if(grounded && Input.GetKey(KeyCode.LeftShift))
         {
             state = MovemenState.sprinting;
             moveSpeed = sprintSpeed;
+            rb.useGravity = true;
         }
 
         //Mode - walking
@@ -130,12 +145,14 @@ public class Movement : MonoBehaviour
         {
             state = MovemenState.walking;
             moveSpeed = walkSpeed;
+            rb.useGravity = true;
         }
 
         //Mode - air
-        else
+        else if(isSwimming != true)
         {
             state = MovemenState.air;
+            rb.useGravity = true;
         }
     }
 
