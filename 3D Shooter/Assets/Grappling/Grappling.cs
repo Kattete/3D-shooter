@@ -7,9 +7,8 @@ public class Grappling : MonoBehaviour
     [Header("References")]
     private Movement pm;
     [SerializeField] private Transform cam;
-    [SerializeField] private Transform gunTip;
+    [SerializeField] public Transform gunTip;
     [SerializeField] private LayerMask whatIsGrappable;
-    [SerializeField] LineRenderer lr;
 
     [Header("Grappling")]
     [SerializeField] private float maxGrapplingDistance;
@@ -37,11 +36,6 @@ public class Grappling : MonoBehaviour
 
     }
 
-    private void LateUpdate()
-    {
-        if (grappling) lr.SetPosition(0, gunTip.position);
-    }
-
     private void StartGrapple()
     {
         if (grapplingCdTimer > 0) return;
@@ -63,8 +57,6 @@ public class Grappling : MonoBehaviour
             Invoke(nameof(StopGrapple), grappleDelayTime);
         }
 
-        lr.enabled = true;
-        lr.SetPosition(1, grapplePoint);
     }
 
     private void ExecuteGrapple()
@@ -88,7 +80,15 @@ public class Grappling : MonoBehaviour
         grappling = false;
 
         grapplingCdTimer = grapplingCd;
+    }
 
-        lr.enabled = false;
+    public Vector3 GetGrapplePoint()
+    {
+        return grapplePoint;
+    }
+
+    public bool IsGrappling()
+    {
+        return grappling;
     }
 }
