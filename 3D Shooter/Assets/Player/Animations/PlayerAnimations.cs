@@ -22,8 +22,16 @@ public class PlayerAnimations : MonoBehaviour
     //Crouch Hashes
     private int crouchIdleHash;
     private int crouchWalkHash;
+
+    //Swimming Hashes
+    private int swimmingHash;
+    private int treadingHash;
+
+    private Movement movement;
     private void Start()
     {
+        movement = new Movement();
+
         animator = GetComponent<Animator>();
         //Walk
         walkingHash = Animator.StringToHash("Walking");
@@ -39,6 +47,9 @@ public class PlayerAnimations : MonoBehaviour
         //Crouch
         crouchIdleHash = Animator.StringToHash("CrouchIdle");
         crouchWalkHash = Animator.StringToHash("CrouchWalk");
+        //Swimming
+        swimmingHash = Animator.StringToHash("Swimming");
+        treadingHash = Animator.StringToHash("Treading");
     }
 
     private void Update()
@@ -47,6 +58,7 @@ public class PlayerAnimations : MonoBehaviour
         RunningAnimations();
         JumpingAnimations();
         CrouchingAnimations();
+        SwimmingAnimations();
     }
 
     private void WalkingAnimations()
@@ -85,5 +97,14 @@ public class PlayerAnimations : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftControl) && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))) animator.SetBool(crouchWalkHash, true);
         else animator.SetBool(crouchWalkHash, false);
+    }
+
+    private void SwimmingAnimations()
+    {
+        if (movement.isSwimming) animator.SetBool(treadingHash, true);
+        else animator.SetBool(treadingHash, false);
+
+        if (movement.isSwimming && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))) animator.SetBool(swimmingHash, true);
+        else animator.SetBool(swimmingHash, false);
     }
 }
