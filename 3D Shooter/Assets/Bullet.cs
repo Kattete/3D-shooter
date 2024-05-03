@@ -11,6 +11,12 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        //Destroy Enemy
+        if(collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
+        {
+            enemy.DummyTakeDamage(20);
+        }
+        
         Destroy(gameObject);
     }
 
