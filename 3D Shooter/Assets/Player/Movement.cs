@@ -31,6 +31,9 @@ public class Movement : MonoBehaviour
     [Header("Swimming")]
     public bool isSwimming;
     [SerializeField] private float swimSpeed;
+    [Header("Change Weapon")]
+    [SerializeField] private GameObject sword;
+    [SerializeField] private GameObject gun;
 
     float horizontalInput;
     float verticalInput;
@@ -70,6 +73,7 @@ public class Movement : MonoBehaviour
         MyInput();
         SpeedConrol();
         StateHandler();
+        ChangeWeapon();
 
         if (grounded && !activeGrapple) rb.drag = groundDrag;
         else if (isSwimming == true) rb.drag = 10f;
@@ -255,6 +259,23 @@ public class Movement : MonoBehaviour
             enableMovementOnNextTouch = false;
             ResetRestriction();
             GetComponent<Grappling>().StopGrapple();
+        }
+    }
+
+    private void ChangeWeapon()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            sword.SetActive(false);
+            gun.SetActive(false);
+        }else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            sword.SetActive(true);
+            gun.SetActive(false);
+        }else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            sword.SetActive(false);
+            gun.SetActive(true);
         }
     }
 }
