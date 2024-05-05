@@ -16,17 +16,13 @@ public class Sword : MonoBehaviour
     [SerializeField] private LayerMask attackLayer;
     [SerializeField] private Camera cam;
 
-    private Enemy enemy;
+    private GameObject enemy;
 
     private bool attacking = false;
     private bool canAttack = true;
     private bool readyToAttack = true;
     int attackCount;
 
-    private void Start()
-    {
-        enemy = new Enemy();
-    }
 
     private void Update()
     {
@@ -76,12 +72,8 @@ public class Sword : MonoBehaviour
     {
         if(Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hit, attackDistance, attackLayer))
         {
-            HitTarget(hit.point);
+            enemy = GameObject.FindGameObjectWithTag("Enemy");
+            enemy.GetComponent<Enemy>().DummyTakeDamage(attackDamage);
         }
-    }
-
-    private void HitTarget(Vector3 pos)
-    {
-        enemy.DummyTakeDamage(attackDamage);
     }
 }
