@@ -7,6 +7,7 @@ public class Sword : MonoBehaviour
     public GameObject sword;
     public float attackCooldown;
     public AudioClip attackSound;
+    private Animator anim;
 
     [Header("Attacking")]
     [SerializeField] private float attackDistance = 3f;
@@ -16,17 +17,17 @@ public class Sword : MonoBehaviour
     [SerializeField] private LayerMask attackLayer;
     [SerializeField] private Camera cam;
 
-    private GameObject[] enemy;
-    private Enemy enemy1;
-
     private bool attacking = false;
     private bool canAttack = true;
     private bool readyToAttack = true;
     int attackCount;
 
-    private void Start()
+    private void OnEnable()
     {
-        enemy1 = new Enemy();
+        anim = sword.GetComponent<Animator>();
+        attacking = false;
+        canAttack = true;
+        readyToAttack = true;
     }
 
 
@@ -40,12 +41,18 @@ public class Sword : MonoBehaviour
                 SwordAttack();
             }
         }
+        if (Input.GetKey(KeyCode.Alpha1) || Input.GetKey(KeyCode.Alpha3))
+        {
+            if ((attacking))
+            {
+                anim.Play("Idle");
+            }
+        }
     }
 
     public void SwordAttack()
     {
         canAttack = false;
-        Animator anim = sword.GetComponent<Animator>();
         anim.SetTrigger("Attack");
         AudioSource audio = GetComponent<AudioSource>();
         audio.PlayOneShot(attackSound);
@@ -76,15 +83,16 @@ public class Sword : MonoBehaviour
 
     private void AttackRayCast()
     {
-        enemy = GameObject.FindGameObjectsWithTag("Enemy");
-        GameObject enemies;
-        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hit, attackDistance, attackLayer))
+        RaycastHit hit;
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out  hit, attackDistance, attackLayer))
         {
-            for(int i = 0; i < enemy.Length-1; i++)
-           {
-                enemies = enemy[i];
-                enemies.GetComponent<Enemy>().DummyTakeDamage(attackDamage);
-           }
+            Enemy enemy = hit.collider.GetComponent<Enemy>();
+
+            if (enemy != null)
+            {
+                enemy.DummyTakeDamage(attackDamage);
+            }
         }
     }
+
 }
