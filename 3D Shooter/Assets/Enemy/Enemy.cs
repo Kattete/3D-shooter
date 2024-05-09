@@ -8,6 +8,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int maxHealth;
     [SerializeField] private DummyHealthBar healthBar;
 
+    public delegate void EnemyKilled();
+    public static event EnemyKilled OnEnemyKilled;
+
     private void Start()
     {
         health = maxHealth;
@@ -21,7 +24,11 @@ public class Enemy : MonoBehaviour
 
         if(health < 0)
         {
-            health = maxHealth;
+            if(OnEnemyKilled != null)
+            {
+                OnEnemyKilled();
+            }
+            Destroy(gameObject);
         }
     }
 }
