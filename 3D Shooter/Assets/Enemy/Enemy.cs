@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int health;
     [SerializeField] private int maxHealth;
     [SerializeField] private DummyHealthBar healthBar;
+    [SerializeField] private int xp = 20;
+    [SerializeField] private XpHandler xpHandler;
 
     public delegate void EnemyKilled();
     public static event EnemyKilled OnEnemyKilled;
@@ -26,6 +28,7 @@ public class Enemy : MonoBehaviour
         {
             if(OnEnemyKilled != null)
             {
+                xpHandler.AddXP(xp);
                 OnEnemyKilled();
             }
             Destroy(gameObject);
