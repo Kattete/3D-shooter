@@ -11,4 +11,10 @@ public class KeyBindManger : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) keyBindPanel.SetActive(true);
         else if (Input.GetKeyUp(KeyCode.Escape)) keyBindPanel.SetActive(false);
     }
+
+    public void Quit()
+    {
+        //Quit Game
+        Application.Quit();
+    }
 }
