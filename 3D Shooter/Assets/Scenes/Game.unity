@@ -30835,44 +30835,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -6028156576184906524, guid: c0b31d97ac2fee0499c67eb024f5acf0, type: 3}
---- !u!84 &568084020
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: WaterDepthMap
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &569210473 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3299780574769198402, guid: c0b31d97ac2fee0499c67eb024f5acf0,
@@ -54651,6 +54613,44 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6378280470538144898, guid: c0b31d97ac2fee0499c67eb024f5acf0, type: 3}
+--- !u!84 &1578074302
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WaterDepthMap
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &1578247976 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -592780387475203035, guid: c0b31d97ac2fee0499c67eb024f5acf0,
@@ -62347,6 +62347,11 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 162293409406222473}
+    - target: {fileID: 4001878985954808958, guid: d9162a78a8deb714a9bddd8038021008,
+        type: 3}
+      propertyPath: xpHandler
+      value: 
+      objectReference: {fileID: 1942497842}
     - target: {fileID: 6274236188747366586, guid: d9162a78a8deb714a9bddd8038021008,
         type: 3}
       propertyPath: m_IsTrigger
@@ -65316,6 +65321,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1942497841}
+  - component: {fileID: 1942497842}
   m_Layer: 5
   m_Name: XpHandler
   m_TagString: Untagged
@@ -65344,6 +65350,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1942497842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942497840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d43b0923cd07d42b678851bcf98fda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xpSlider: {fileID: 859235078}
+  xpText: {fileID: 8375718}
+  requiredXp: 100
+  lvl: 0
 --- !u!1 &1943752373 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2273269999961513607, guid: c0b31d97ac2fee0499c67eb024f5acf0,
