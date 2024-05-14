@@ -13,8 +13,17 @@ public class UpgradeHandler : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKey(KeyCode.L)) panel.SetActive(true);
+        if (Input.GetKey(KeyCode.L)) panel.SetActive(true);
         else panel.SetActive(false);
+        if (Input.GetKey(KeyCode.L) || Input.GetKey(KeyCode.Escape))
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     public void AddDamage()
