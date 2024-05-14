@@ -5,6 +5,10 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private BoxCollider bxLeft;
+    [SerializeField] private BoxCollider bxRight;
+
     [Header("Prefab")]
     public NavMeshAgent agent;
     public Transform player;
@@ -25,13 +29,16 @@ public class EnemyAI : MonoBehaviour
     public bool playerInSightRange;
     public bool playerInAttackRange;
 
+    private Animator animator;
+    
+
 
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
-
     private void Update()
     {
         //Check if player in sight or attack range
@@ -52,6 +59,7 @@ public class EnemyAI : MonoBehaviour
         Vector3 distanceToWalk = transform.position - walkPoint;
         //Walkpoint Reached
         if (distanceToWalk.magnitude < 1f) walkPointSet = false;
+
     }
 
     private void SearchWalkPoint()
@@ -77,8 +85,11 @@ public class EnemyAI : MonoBehaviour
         if (!alreadyAttacked)
         {
             //Attack Code here
-            //https://www.youtube.com/watch?v=DnIBoUBezeU
-            //
+            if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Mutant Attack"))
+            {
+                animator.SetTrigger("Attack");
+
+            }
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAtacks);
@@ -88,5 +99,27 @@ public class EnemyAI : MonoBehaviour
     private void ResetAttack()
     {
         alreadyAttacked = false;
+    }
+
+    private void EnableAttack()
+    {
+        bxLeft.enabled = true;
+        bxRight.enabled = true;
+    }
+
+    private void DisableAttack()
+    {
+        bxLeft.enabled = false;
+        bxRight.enabled = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var Player = other.GetComponent<Player>();
+
+        if(Player != null)
+        {
+            print("HIT!");
+        }
     }
 }
