@@ -22,6 +22,7 @@ public class EnemyAI : MonoBehaviour
     [Header("Attacking")]
     public float timeBetweenAtacks;
     bool alreadyAttacked;
+    [SerializeField] private int attackDamage = 10;
 
     [Header("States")]
     public float sightRange;
@@ -119,7 +120,7 @@ public class EnemyAI : MonoBehaviour
 
         if(Player != null)
         {
-            print("HIT!");
+            Player.TakeDamage(attackDamage);
         }
     }
 }
