@@ -9,6 +9,7 @@ public class XpHandler : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Slider xpSlider;
     [SerializeField] private TMP_Text xpText;
+    [SerializeField] private TMP_Text lvlText;
     [Header("XP")]
     [SerializeField]private float requiredXp = 100f;
     private int[] xpPerLevel;
@@ -24,6 +25,8 @@ public class XpHandler : MonoBehaviour
     private void Update()
     {
         xpSlider.value = currentXp;
+        xpText.SetText(currentXp + "/" + requiredXp);
+
     }
 
     public void AddXP(int xpToAdd)
@@ -37,6 +40,8 @@ public class XpHandler : MonoBehaviour
         if(currentXp >= requiredXp)
         {
             lvl++;
+            currentXp = 0;
+            lvlText.SetText(lvl + " lvl");
         }
     }
 
