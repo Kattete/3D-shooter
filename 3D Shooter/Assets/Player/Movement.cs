@@ -9,8 +9,8 @@ public class Movement : MonoBehaviour
 {
     [Header("Movement")]
     private float moveSpeed;
-    [SerializeField] private float walkSpeed;
-    [SerializeField] private float sprintSpeed;
+    [SerializeField] public float walkSpeed;
+    [SerializeField] public float sprintSpeed;
     [SerializeField] private Transform orientation;
     [SerializeField] private float groundDrag;
     [SerializeField] private float jumpForce;
@@ -22,7 +22,7 @@ public class Movement : MonoBehaviour
     private bool grounded;
     private bool readyToJump = true;
     [Header("Crouching")]
-    [SerializeField] private float crouchSpeed;
+    [SerializeField] public float crouchSpeed;
     [SerializeField] private float crouchYscale;
     private float startYScale;
     [Header("Slope Handling")]

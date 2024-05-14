@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public int damage = 20;
+
     private void Update()
     {
         Invoke("DestroyItem", 10f);
@@ -14,7 +16,7 @@ public class Bullet : MonoBehaviour
         //Destroy Enemy
         if(collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
-            enemy.DummyTakeDamage(20);
+            enemy.DummyTakeDamage(damage);
         }
         
         Destroy(gameObject);

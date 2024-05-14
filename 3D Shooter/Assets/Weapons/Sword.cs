@@ -12,8 +12,8 @@ public class Sword : MonoBehaviour
     [Header("Attacking")]
     [SerializeField] private float attackDistance = 3f;
     [SerializeField] private float attackDelay = 0.4f;
-    [SerializeField] private float attackSpeed = 1f;
-    [SerializeField] private int attackDamage = 25;
+    [SerializeField] public float attackSpeed = 1f;
+    [SerializeField] public int attackDamage = 50;
     [SerializeField] private LayerMask attackLayer;
     [SerializeField] private Camera cam;
 
