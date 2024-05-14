@@ -10,6 +10,7 @@ public class Spawner : MonoBehaviour
     private void Start()
     {
         EnemySpawn();
+        InitalSpawn();
     }
     private void OnEnable()
     {
@@ -19,5 +20,14 @@ public class Spawner : MonoBehaviour
     {
         int random = Mathf.RoundToInt(Random.Range(0f, spawnPoints.Length - 1));
         Instantiate(enemyPrefab, spawnPoints[random].transform.position, Quaternion.identity);
+    }
+
+    private void InitalSpawn()
+    {
+        for(int i = 0;  i < spawnPoints.Length; i++)
+        {
+            Instantiate(enemyPrefab, spawnPoints[i].transform.position, Quaternion.identity);
+        }
+
     }
 }

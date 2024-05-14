@@ -10,7 +10,9 @@ public class Movement : MonoBehaviour
     [Header("Movement")]
     private float moveSpeed;
     [SerializeField] public float walkSpeed;
+    [SerializeField] private float baseWalkSpeed;
     [SerializeField] public float sprintSpeed;
+    [SerializeField] private float baseSprintSpeed;
     [SerializeField] private Transform orientation;
     [SerializeField] private float groundDrag;
     [SerializeField] private float jumpForce;
@@ -23,6 +25,7 @@ public class Movement : MonoBehaviour
     private bool readyToJump = true;
     [Header("Crouching")]
     [SerializeField] public float crouchSpeed;
+    [SerializeField] private float baseCrouchSpeed;
     [SerializeField] private float crouchYscale;
     private float startYScale;
     [Header("Slope Handling")]
@@ -63,6 +66,9 @@ public class Movement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         startYScale = transform.localScale.y;
+        walkSpeed = baseWalkSpeed;
+        sprintSpeed = baseSprintSpeed;
+        crouchSpeed = baseCrouchSpeed;
     }
 
     private void Update()

@@ -5,7 +5,12 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public int damage = 20;
+    private int baseDamage = 20;
 
+    private void Start()
+    {
+        damage = baseDamage;
+    }
     private void Update()
     {
         Invoke("DestroyItem", 10f);

@@ -9058,6 +9058,44 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3068281046162573470, guid: c0b31d97ac2fee0499c67eb024f5acf0, type: 3}
+--- !u!84 &343649111
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WaterDepthMap
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &344175205 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4606999099646320989, guid: c0b31d97ac2fee0499c67eb024f5acf0,
@@ -45828,44 +45866,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5922175168899788826, guid: c0b31d97ac2fee0499c67eb024f5acf0, type: 3}
---- !u!84 &1162770363
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: WaterDepthMap
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &1162947769 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 269887525200044059, guid: c0b31d97ac2fee0499c67eb024f5acf0,
@@ -55891,7 +55891,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 10
+  baseWalkSpeed: 9
   sprintSpeed: 17
+  baseSprintSpeed: 14
   orientation: {fileID: 1455601475}
   groundDrag: 5
   jumpForce: 6
@@ -55902,6 +55904,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 576
   crouchSpeed: 5
+  baseCrouchSpeed: 4.5
   crouchYscale: 0.5
   maxSlopeAngle: 45
   isSwimming: 0
@@ -69053,6 +69056,7 @@ MonoBehaviour:
   attackDistance: 3
   attackDelay: 0.4
   attackSpeed: 1
+  baseAttackSpeed: 0
   attackDamage: 25
   attackLayer:
     serializedVersion: 2

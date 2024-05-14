@@ -13,6 +13,7 @@ public class Sword : MonoBehaviour
     [SerializeField] private float attackDistance = 3f;
     [SerializeField] private float attackDelay = 0.4f;
     [SerializeField] public float attackSpeed = 1f;
+    [SerializeField] private float baseAttackSpeed = 1f;
     [SerializeField] public int attackDamage = 50;
     [SerializeField] private LayerMask attackLayer;
     [SerializeField] private Camera cam;
@@ -28,6 +29,7 @@ public class Sword : MonoBehaviour
         attacking = false;
         canAttack = true;
         readyToAttack = true;
+        attackSpeed = baseAttackSpeed;
     }
 
 
