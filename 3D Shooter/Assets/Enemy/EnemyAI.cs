@@ -5,9 +5,6 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private BoxCollider bxLeft;
-    [SerializeField] private BoxCollider bxRight;
 
     [Header("Prefab")]
     public NavMeshAgent agent;
@@ -23,6 +20,10 @@ public class EnemyAI : MonoBehaviour
     public float timeBetweenAtacks;
     bool alreadyAttacked;
     [SerializeField] private int attackDamage = 10;
+    [SerializeField] private float attackDistance = 5f;
+    [SerializeField] private float attackDelay = 1f;
+    [SerializeField] private LayerMask layer;
+    [SerializeField] private Transform attackPoint;
 
     [Header("States")]
     public float sightRange;
@@ -49,6 +50,9 @@ public class EnemyAI : MonoBehaviour
         if (!playerInSightRange && !playerInAttackRange) Patroling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInSightRange && playerInAttackRange) AttackPlayer();
+
+
+
     }
 
     private void Patroling()
@@ -89,9 +93,9 @@ public class EnemyAI : MonoBehaviour
             if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Mutant Attack"))
             {
                 animator.SetTrigger("Attack");
-
             }
 
+            Invoke(nameof(Attack), attackDelay);
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAtacks);
         }
@@ -102,25 +106,41 @@ public class EnemyAI : MonoBehaviour
         alreadyAttacked = false;
     }
 
-    private void EnableAttack()
+    private void Attack()
     {
-        bxLeft.enabled = true;
-        bxRight.enabled = true;
-    }
+        Collider[] hitPlayers = Physics.OverlapSphere(transform.position, attackRange, layer);
 
-    private void DisableAttack()
-    {
-        bxLeft.enabled = false;
-        bxRight.enabled = false;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        var Player = other.GetComponent<Player>();
-
-        if(Player != null)
+        foreach (Collider playerCollider in hitPlayers)
         {
-            Player.TakeDamage(attackDamage);
+            RaycastHit hit;
+            Vector3 rayDirection = (playerCollider.transform.position - attackPoint.position).normalized;
+            Debug.DrawRay(attackPoint.position, rayDirection * attackRange, Color.red, 0.5f); // Draw the ray for visualization
+
+            if (Physics.Raycast(attackPoint.position, rayDirection, out hit, attackRange))
+            {
+                if (hit.collider.gameObject == playerCollider.gameObject)
+                {
+                    AttackPlayers(playerCollider.gameObject);
+                    break;
+                }
+            }
         }
+    }
+
+    private void AttackPlayers(GameObject pl)
+    {
+        Player player = pl.GetComponent<Player>();
+        if(player != null)
+        {
+            player.TakeDamage(attackDamage);
+        }
+
+        Invoke(nameof(ResetAttack), attackDelay);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
