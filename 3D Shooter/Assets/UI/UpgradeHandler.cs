@@ -9,7 +9,8 @@ public class UpgradeHandler : MonoBehaviour
     [SerializeField] private Sword sword;
     [SerializeField] private Bullet gun;
     [SerializeField] private Movement movement;
-
+    [SerializeField] private XpHandler handler;
+    private bool checkLVL;
 
     private void Update()
     {
@@ -24,23 +25,47 @@ public class UpgradeHandler : MonoBehaviour
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
+
+        if(handler != null)
+        {
+            if(handler.lvl >= 1)
+            {
+                checkLVL = true;
+            }
+            else if(handler.lvl <= 1) {
+                checkLVL = false;
+            }
+        }
     }
 
     public void AddDamage()
     {
-        gun.damage += 2;
-        sword.attackDamage += 2;
+        if(checkLVL)
+        {
+            gun.damage += 2;
+            sword.attackDamage += 2;
+            handler.lvl -= 1;
+        }
     }
 
     public void AddAttackSpeed()
     {
-        sword.attackSpeed -= 0.1f;
+        if (checkLVL)
+        {
+            sword.attackSpeed -= 0.1f;
+            handler.lvl -= 1;
+        }
     }
 
     public void AddSpeed()
     {
-        movement.walkSpeed += 0.5f;
-        movement.sprintSpeed += 0.5f;
-        movement.crouchSpeed += 0.5f;
+        if(checkLVL)
+        {
+            movement.walkSpeed += 0.5f;
+            movement.sprintSpeed += 0.5f;
+            movement.crouchSpeed += 0.5f;
+            handler.lvl -= 1;
+            print("INCREASED MOVEMENT");
+        }
     }
 }
